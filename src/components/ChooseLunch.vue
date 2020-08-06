@@ -1,36 +1,61 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
+    <!--      <span>{{ lunch }}</span>-->
+    <!--  shape "circle", "circle-outline", "round"-->
+    <a-button type="primary" shape="round" :ghost="true" :disabled="false" @click="chooseLunch">午 餐</a-button>
+    <a-button type="primary" shape="round" :disabled="false" @click="clearLunch">clear</a-button>
+    <div v-show="isShow">
+      <br/>
+      <h2>{{ lunch }}</h2>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  data() {
+    return {
+      isShow: false,
+      lunch: ''
+    }
+  },
+  name: 'ChooseLunch',
   props: {
     msg: String
+  },
+  methods: {
+    // 选择午餐方法
+    chooseLunch: function () {
+      let personArr = ['重庆', '粉丝汤', '馄饨', '牛肉面'];
+      let number = this.randomNum(0, personArr.length - 1);
+      console.info(personArr[number])
+      this.isShow = true
+      this.lunch = personArr[number]
+    },
+    // 清除选择的午餐方法
+    clearLunch: function () {
+      this.lunch = ''
+      this.isShow = false
+    },
+    // 生成随机数方法 minNum - maxNum
+    randomNum: function (minNum, maxNum) {
+      // console.info(arguments)
+      switch (arguments.length) {
+        case 1:
+          return parseInt(Math.random() * minNum + 1, 10);
+        case 2:
+          return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+        default:
+          return 0;
+      }
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
 a {
   color: #42b983;
 }
